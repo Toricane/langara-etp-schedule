@@ -1,7 +1,15 @@
 {
+    "holidays": [
+        { "date": "2025-09-01", "name": "Labour Day" },
+        { "date": "2025-09-30", "name": "Truth and Reconciliation Day" },
+        { "date": "2025-10-13", "name": "Thanksgiving Day" },
+        { "date": "2025-11-11", "name": "Remembrance Day" }
+    ],
+    "events": [],
     "alpha": [
         {
             "course": "CHEM 1154",
+            "sec": "003",
             "title": "Engineering Chemistry",
             "type": "Lab",
             "room": "T540",
@@ -12,6 +20,7 @@
         },
         {
             "course": "PHYS 1125",
+            "sec": "002",
             "title": "Physics I With Calculus",
             "type": "Lecture",
             "room": "T342",
@@ -22,6 +31,7 @@
         },
         {
             "course": "MATH 1171",
+            "sec": "006",
             "title": "Calculus I",
             "type": "Lecture",
             "room": "B252",
@@ -32,6 +42,7 @@
         },
         {
             "course": "CHEM 1154",
+            "sec": "003",
             "title": "Engineering Chemistry",
             "type": "Lecture",
             "room": "L342",
@@ -42,6 +53,7 @@
         },
         {
             "course": "PHYS 1125",
+            "sec": "002",
             "title": "Physics I With Calculus",
             "type": "Lab",
             "room": "T346",
@@ -52,6 +64,7 @@
         },
         {
             "course": "CPSC 1155",
+            "sec": "003",
             "title": "Program Design for Engineers",
             "type": "Lecture",
             "room": "B027",
@@ -62,6 +75,7 @@
         },
         {
             "course": "CPSC 1091",
+            "sec": "001",
             "title": "Engineering Design and Drafting",
             "type": "Lab",
             "room": "T215",
@@ -72,6 +86,7 @@
         },
         {
             "course": "CPSC 1091",
+            "sec": "001",
             "title": "Engineering Design and Drafting",
             "type": "Lecture",
             "room": "B030",
@@ -82,6 +97,7 @@
         },
         {
             "course": "MATH 1171",
+            "sec": "006",
             "title": "Calculus I",
             "type": "Lecture",
             "room": "B252",
@@ -92,6 +108,7 @@
         },
         {
             "course": "CHEM 1154",
+            "sec": "003",
             "title": "Engineering Chemistry",
             "type": "Lecture",
             "room": "L342",
@@ -102,6 +119,7 @@
         },
         {
             "course": "PHYS 1125",
+            "sec": "002",
             "title": "Physics I With Calculus",
             "type": "Lecture",
             "room": "T342",
@@ -112,6 +130,7 @@
         },
         {
             "course": "CPSC 1155",
+            "sec": "003",
             "title": "Program Design for Engineers",
             "type": "Lecture",
             "room": "B027",
@@ -122,6 +141,7 @@
         },
         {
             "course": "ENGL 1123",
+            "sec": "025",
             "title": "Intro to Academic Writing",
             "type": "Lecture",
             "room": "A327",
@@ -132,6 +152,7 @@
         },
         {
             "course": "CPSC 1155",
+            "sec": "003",
             "title": "Program Design for Engineers",
             "type": "Lab",
             "room": "T215",
@@ -144,6 +165,7 @@
     "beta": [
         {
             "course": "MATH 1171",
+            "sec": "001",
             "title": "Calculus I",
             "type": "Lecture",
             "room": "B029",
@@ -154,6 +176,7 @@
         },
         {
             "course": "CPSC 1091",
+            "sec": "M02",
             "title": "Engineering Design and Drafting",
             "type": "Lab",
             "room": "T215",
@@ -164,6 +187,7 @@
         },
         {
             "course": "CPSC 1091",
+            "sec": "M02",
             "title": "Engineering Design and Drafting",
             "type": "Lecture",
             "room": "WWW",
@@ -174,6 +198,7 @@
         },
         {
             "course": "CPSC 1155",
+            "sec": "001",
             "title": "Program Design for Engineers",
             "type": "Lecture",
             "room": "B010",
@@ -184,6 +209,7 @@
         },
         {
             "course": "CHEM 1154",
+            "sec": "002",
             "title": "Engineering Chemistry",
             "type": "Lecture",
             "room": "T537",
@@ -194,6 +220,7 @@
         },
         {
             "course": "PHYS 1125",
+            "sec": "003",
             "title": "Physics I With Calculus",
             "type": "Lab",
             "room": "T346",
@@ -204,6 +231,7 @@
         },
         {
             "course": "MATH 1171",
+            "sec": "001",
             "title": "Calculus I",
             "type": "Lecture",
             "room": "B029",
@@ -214,6 +242,7 @@
         },
         {
             "course": "ENGL 1123",
+            "sec": "M02",
             "title": "Intro to Academic Writing",
             "type": "Lecture",
             "room": "A363C",
@@ -224,6 +253,7 @@
         },
         {
             "course": "PHYS 1125",
+            "sec": "003",
             "title": "Physics I With Calculus",
             "type": "Lecture",
             "room": "T342",
@@ -234,6 +264,7 @@
         },
         {
             "course": "CPSC 1155",
+            "sec": "001",
             "title": "Program Design for Engineers",
             "type": "Lecture",
             "room": "B010",
@@ -244,6 +275,7 @@
         },
         {
             "course": "CHEM 1154",
+            "sec": "002",
             "title": "Engineering Chemistry",
             "type": "Lecture",
             "room": "T537",
@@ -254,6 +286,7 @@
         },
         {
             "course": "PHYS 1125",
+            "sec": "003",
             "title": "Physics I With Calculus",
             "type": "Lecture",
             "room": "T342",
@@ -264,6 +297,7 @@
         },
         {
             "course": "CPSC 1155",
+            "sec": "001",
             "title": "Program Design for Engineers",
             "type": "Lab",
             "room": "T215",
@@ -274,6 +308,7 @@
         },
         {
             "course": "CHEM 1154",
+            "sec": "002",
             "title": "Engineering Chemistry",
             "type": "Lab",
             "room": "T540",
@@ -286,6 +321,7 @@
     "gamma": [
         {
             "course": "CPSC 1091",
+            "sec": "M01",
             "title": "Engineering Design and Drafting",
             "type": "Lab",
             "room": "T215",
@@ -296,6 +332,7 @@
         },
         {
             "course": "MATH 1171",
+            "sec": "003",
             "title": "Calculus I",
             "type": "Lecture",
             "room": "B153",
@@ -306,6 +343,7 @@
         },
         {
             "course": "CPSC 1091",
+            "sec": "M01",
             "title": "Engineering Design and Drafting",
             "type": "Lecture",
             "room": "WWW",
@@ -316,6 +354,7 @@
         },
         {
             "course": "PHYS 1125",
+            "sec": "001",
             "title": "Physics I With Calculus",
             "type": "Lab",
             "room": "T346",
@@ -326,6 +365,7 @@
         },
         {
             "course": "CPSC 1155",
+            "sec": "002",
             "title": "Program Design for Engineers",
             "type": "Lecture",
             "room": "B253",
@@ -336,6 +376,7 @@
         },
         {
             "course": "CHEM 1154",
+            "sec": "001",
             "title": "Engineering Chemistry",
             "type": "Lecture",
             "room": "C410",
@@ -346,6 +387,7 @@
         },
         {
             "course": "PHYS 1125",
+            "sec": "001",
             "title": "Physics I With Calculus",
             "type": "Lecture",
             "room": "T342",
@@ -356,6 +398,7 @@
         },
         {
             "course": "MATH 1171",
+            "sec": "003",
             "title": "Calculus I",
             "type": "Lecture",
             "room": "B153",
@@ -366,6 +409,7 @@
         },
         {
             "course": "ENGL 1123",
+            "sec": "M03",
             "title": "Intro to Academic Writing",
             "type": "Lecture",
             "room": "A306",
@@ -376,6 +420,7 @@
         },
         {
             "course": "PHYS 1125",
+            "sec": "001",
             "title": "Physics I With Calculus",
             "type": "Lecture",
             "room": "T342",
@@ -386,6 +431,7 @@
         },
         {
             "course": "CPSC 1155",
+            "sec": "002",
             "title": "Program Design for Engineers",
             "type": "Lecture",
             "room": "B253",
@@ -396,6 +442,7 @@
         },
         {
             "course": "CHEM 1154",
+            "sec": "001",
             "title": "Engineering Chemistry",
             "type": "Lecture",
             "room": "C410",
@@ -406,6 +453,7 @@
         },
         {
             "course": "CHEM 1154",
+            "sec": "001",
             "title": "Engineering Chemistry",
             "type": "Lab",
             "room": "T540",
@@ -416,6 +464,7 @@
         },
         {
             "course": "CPSC 1155",
+            "sec": "002",
             "title": "Program Design for Engineers",
             "type": "Lab",
             "room": "T215",

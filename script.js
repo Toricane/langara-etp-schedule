@@ -17,14 +17,24 @@ document.addEventListener("DOMContentLoaded", async function () {
         "ENGL 1123": `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='rgba(255,255,255,0.15)'%3E%3Cpath d='M20 6H4v12h16V6zM4 4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4z'/%3E%3Cpath d='M6 8h8v2H6z'/%3E%3C/svg%3E`,
     };
 
-    // fetch schedule data from data.json
+    const SEMESTER_START = new Date("2025-09-01T00:00:00");
+    const SEMESTER_END = new Date("2025-12-01T00:00:00");
+    const TODAY = new Date(); // Use system's current date
+    TODAY.setHours(0, 0, 0, 0); // Normalize to start of day for accurate comparison
+
     let scheduleData = {};
     try {
         const res = await fetch("data.json");
         scheduleData = await res.json();
     } catch (err) {
         console.error("Failed to load schedule data:", err);
-        scheduleData = { alpha: [], beta: [], gamma: [] };
+        scheduleData = {
+            alpha: [],
+            beta: [],
+            gamma: [],
+            holidays: [],
+            events: [],
+        };
     }
 
     const toggles = {
@@ -32,16 +42,32 @@ document.addEventListener("DOMContentLoaded", async function () {
         beta: document.getElementById("beta-toggle"),
         gamma: document.getElementById("gamma-toggle"),
     };
-    const dayColumns = {
-        M: "day-M",
-        T: "day-T",
-        W: "day-W",
-        R: "day-R",
-        F: "day-F",
+
+    const saveToggleStates = () => {
+        const states = {
+            alpha: toggles.alpha.checked,
+            beta: toggles.beta.checked,
+            gamma: toggles.gamma.checked,
+        };
+        localStorage.setItem("cohortToggleStates", JSON.stringify(states));
     };
+
+    const loadToggleStates = () => {
+        const savedStates = localStorage.getItem("cohortToggleStates");
+        if (savedStates) {
+            const states = JSON.parse(savedStates);
+            toggles.alpha.checked = states.alpha;
+            toggles.beta.checked = states.beta;
+            toggles.gamma.checked = states.gamma;
+        }
+    };
+
+    loadToggleStates();
+
     const tooltip = document.getElementById("tooltip");
     const calendarWrapper = document.querySelector(".calendar-wrapper");
     const emptyStateMessage = document.getElementById("calendar-empty-state");
+    const calendar = document.querySelector(".calendar");
 
     let activeCourseFilters = new Set(Object.keys(courseColors));
 
@@ -49,26 +75,113 @@ document.addEventListener("DOMContentLoaded", async function () {
         endHour = 17,
         pixelsPerHour = 60;
     const calendarHeight = (endHour - startHour) * pixelsPerHour;
-    Object.values(dayColumns).forEach(
-        (id) =>
-            (document.getElementById(id).style.height = `${calendarHeight}px`)
-    );
-    document.getElementById(
-        "time-labels-col"
-    ).style.height = `${calendarHeight}px`;
 
     const timeToMinutes = (timeStr) =>
         parseInt(timeStr.slice(0, 2)) * 60 + parseInt(timeStr.slice(2, 4));
 
-    const renderSchedules = () => {
-        let totalEventsToRender = 0;
+    const getDatesInRange = (startDate, endDate) => {
+        const dates = [];
+        let currentDate = new Date(startDate);
+        while (currentDate <= endDate) {
+            dates.push(new Date(currentDate));
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+        return dates;
+    };
+
+    const dates = getDatesInRange(SEMESTER_START, SEMESTER_END);
+
+    const renderFullCalendar = () => {
+        calendar.innerHTML = "";
+        calendar.style.gridTemplateColumns = `60px repeat(${dates.length}, minmax(220px, 1fr))`;
+
+        generateTimeLabels();
+        dates.forEach((date, index) => generateDayColumn(date, index + 2));
+        populateCalendar();
+        scrollToToday();
+    };
+
+    const generateTimeLabels = () => {
+        const timeLabelHeader = document.createElement("div");
+        timeLabelHeader.className = "time-label-header";
+        calendar.appendChild(timeLabelHeader);
+
+        const timeLabelsCol = document.createElement("div");
+        timeLabelsCol.id = "time-labels-col";
+        timeLabelsCol.className = "time-labels";
+        timeLabelsCol.style.height = `${calendarHeight}px`;
+        for (let i = startHour; i < endHour; i++) {
+            const label = document.createElement("div");
+            label.className = "hour-label";
+            const time = document.createElement("span");
+            time.textContent = `${i > 12 ? i - 12 : i}${i >= 12 ? "pm" : "am"}`;
+            label.appendChild(time);
+            timeLabelsCol.appendChild(label);
+        }
+        calendar.appendChild(timeLabelsCol);
+    };
+
+    const generateDayColumn = (date, gridColumn) => {
+        const dayHeader = document.createElement("div");
+        dayHeader.className = "day-header";
+        dayHeader.style.gridColumn = gridColumn;
+        dayHeader.innerHTML = `${date.toLocaleString("en-US", {
+            weekday: "short",
+        })}<br><span style="font-weight:400;">${date.toLocaleString("en-US", {
+            month: "short",
+        })} ${date.getDate()}</span>`;
+
+        const dayColumn = document.createElement("div");
+        dayColumn.className = "day-column";
+        dayColumn.id = `day-${date.toISOString().split("T")[0]}`;
+        dayColumn.style.gridColumn = gridColumn;
+        dayColumn.style.height = `${calendarHeight}px`;
+
+        const dayOfWeek = date.getDay();
+        if (dayOfWeek === 0 || dayOfWeek === 6) {
+            dayHeader.classList.add("is-weekend");
+            dayColumn.classList.add("is-weekend");
+        }
+        if (date.getTime() === TODAY.getTime()) {
+            dayHeader.classList.add("is-today");
+            dayColumn.classList.add("is-today");
+        }
+
+        calendar.appendChild(dayHeader);
+        calendar.appendChild(dayColumn);
+    };
+
+    const populateCalendar = () => {
+        saveToggleStates(); // Save state whenever calendar is repopulated
+        const dayMap = { 1: "M", 2: "T", 3: "W", 4: "R", 5: "F" };
         const cohortsToRender = Object.keys(toggles).filter(
             (key) => toggles[key].checked
         );
+        let totalEventsToRender = 0;
 
-        Object.keys(dayColumns).forEach((dayKey) => {
-            const dayCol = document.getElementById(dayColumns[dayKey]);
-            dayCol.innerHTML = "";
+        document
+            .querySelectorAll(".day-column")
+            .forEach((col) => (col.innerHTML = ""));
+
+        dates.forEach((date) => {
+            const dateString = date.toISOString().split("T")[0];
+            const dayCol = document.getElementById(`day-${dateString}`);
+            if (!dayCol) return;
+
+            const holiday = (scheduleData.holidays || []).find(
+                (h) => h.date === dateString
+            );
+            if (holiday) {
+                const holidayBlock = document.createElement("div");
+                holidayBlock.className = "holiday-block";
+                holidayBlock.innerHTML = `<div class="holiday-name">${holiday.name}</div>`;
+                dayCol.appendChild(holidayBlock);
+                return;
+            }
+
+            const dayOfWeek = date.getDay();
+            const dayKey = dayMap[dayOfWeek];
+            if (!dayKey) return;
 
             let dayEvents = [];
             cohortsToRender.forEach((cohortName) => {
@@ -90,50 +203,17 @@ document.addEventListener("DOMContentLoaded", async function () {
                 ...new Set(dayEvents.map((e) => e.cohort)),
             ].sort();
             const totalCols = activeCohortsOnDay.length || 1;
-            const cohortIndexMap = new Map();
-            activeCohortsOnDay.forEach((cohort, index) =>
-                cohortIndexMap.set(cohort, index)
+            const cohortIndexMap = new Map(
+                activeCohortsOnDay.map((cohort, index) => [cohort, index])
             );
 
             dayEvents.forEach((classItem) => {
-                const top =
-                    ((timeToMinutes(classItem.start) - startHour * 60) / 60) *
-                    pixelsPerHour;
-                const height =
-                    ((timeToMinutes(classItem.end) -
-                        timeToMinutes(classItem.start)) /
-                        60) *
-                    pixelsPerHour;
-
-                const block = document.createElement("div");
-                block.className = `class-block cohort-${classItem.cohort}`;
-                block.dataset.course = classItem.course;
-                block.style.top = `${top}px`;
-                block.style.height = `${height}px`;
-                block.style.backgroundColor =
-                    courseColors[classItem.course] || "#555";
-                block.style.backgroundImage = `url("${
-                    courseIcons[classItem.course] || ""
-                }")`;
-
-                const position = cohortIndexMap.get(classItem.cohort);
-                const widthPercentage = 100 / totalCols;
-                const leftPercentage = position * widthPercentage;
-
-                block.style.width = `calc(${widthPercentage}% - 4px)`;
-                block.style.left = `${leftPercentage}%`;
-
-                block.innerHTML = `<div class="class-block-course">${classItem.course}</div><div class="class-block-type">${classItem.type}</div><div class="class-block-instructor">${classItem.instructor}</div><div class="class-block-room">${classItem.room}</div>`;
-                block.dataset.tooltipTitle = `${classItem.course}: ${classItem.title}`;
-                block.dataset.tooltipDetails = `<span>${classItem.start.slice(
-                    0,
-                    2
-                )}:${classItem.start.slice(2)} - ${classItem.end.slice(
-                    0,
-                    2
-                )}:${classItem.end.slice(2)}</span><span>Instructor: ${
-                    classItem.instructor
-                }</span><span>Room: ${classItem.room}</span>`;
+                const block = createClassBlock(
+                    classItem,
+                    dateString,
+                    cohortIndexMap,
+                    totalCols
+                );
                 dayCol.appendChild(block);
             });
         });
@@ -141,15 +221,74 @@ document.addEventListener("DOMContentLoaded", async function () {
             totalEventsToRender === 0 ? "block" : "none";
     };
 
-    const generateTimeLabels = () => {
-        const timeLabelsCol = document.getElementById("time-labels-col");
-        for (let i = startHour; i < endHour; i++) {
-            const label = document.createElement("div");
-            label.className = "hour-label";
-            const time = document.createElement("span");
-            time.textContent = `${i > 12 ? i - 12 : i}${i >= 12 ? "pm" : "am"}`;
-            label.appendChild(time);
-            timeLabelsCol.appendChild(label);
+    const createClassBlock = (
+        classItem,
+        dateString,
+        cohortIndexMap,
+        totalCols
+    ) => {
+        const top =
+            ((timeToMinutes(classItem.start) - startHour * 60) / 60) *
+            pixelsPerHour;
+        const height =
+            ((timeToMinutes(classItem.end) - timeToMinutes(classItem.start)) /
+                60) *
+            pixelsPerHour;
+
+        const block = document.createElement("div");
+        block.className = `class-block cohort-${classItem.cohort}`;
+        block.dataset.course = classItem.course;
+        block.style.top = `${top}px`;
+        block.style.height = `${height}px`;
+        block.style.backgroundColor = courseColors[classItem.course] || "#555";
+        block.style.backgroundImage = `url("${
+            courseIcons[classItem.course] || ""
+        }")`;
+
+        const position = cohortIndexMap.get(classItem.cohort);
+        const widthPercentage = 100 / totalCols;
+        block.style.width = `calc(${widthPercentage}% - 4px)`;
+        block.style.left = `${position * widthPercentage}%`;
+
+        const eventInfo = (scheduleData.events || []).find(
+            (e) =>
+                e.date === dateString &&
+                e.course === classItem.course &&
+                (e.section === undefined || e.section === classItem.sec)
+        );
+        const eventHTML = eventInfo
+            ? `<div class="class-block-info">${eventInfo.info}</div>`
+            : "";
+
+        block.innerHTML = `<div class="class-block-course">${classItem.course}</div><div class="class-block-type">${classItem.type}</div><div class="class-block-instructor">${classItem.instructor}</div><div class="class-block-room">${classItem.room}</div>${eventHTML}`;
+        block.dataset.tooltipTitle = `${classItem.course}-${classItem.sec}: ${classItem.title}`;
+        block.dataset.tooltipDetails = `<span>${classItem.start.slice(
+            0,
+            2
+        )}:${classItem.start.slice(2)} - ${classItem.end.slice(
+            0,
+            2
+        )}:${classItem.end.slice(2)}</span><span>Instructor: ${
+            classItem.instructor
+        }</span><span>Room: ${classItem.room}</span>`;
+
+        return block;
+    };
+
+    const scrollToToday = () => {
+        const todayColumn = document.querySelector(".day-column.is-today");
+        if (todayColumn) {
+            const scrollContainer = document.querySelector(
+                ".calendar-scroll-container"
+            );
+            const containerRect = scrollContainer.getBoundingClientRect();
+            const todayRect = todayColumn.getBoundingClientRect();
+            const scrollOffset =
+                todayRect.left -
+                containerRect.left -
+                containerRect.width / 2 +
+                todayRect.width / 2;
+            scrollContainer.scrollLeft += scrollOffset;
         }
     };
 
@@ -166,7 +305,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 if (activeCourseFilters.has(course))
                     activeCourseFilters.delete(course);
                 else activeCourseFilters.add(course);
-                renderSchedules();
+                populateCalendar();
             });
             legendContainer.appendChild(item);
         });
@@ -178,7 +317,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             document
                 .querySelectorAll(".legend-item")
                 .forEach((item) => item.classList.add("active"));
-            renderSchedules();
+            populateCalendar();
         });
         legendContainer.appendChild(clearBtn);
     };
@@ -225,9 +364,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
 
     Object.values(toggles).forEach((toggle) =>
-        toggle.addEventListener("change", renderSchedules)
+        toggle.addEventListener("change", populateCalendar)
     );
-    generateTimeLabels();
+
     generateLegend();
-    renderSchedules();
+    renderFullCalendar();
 });
