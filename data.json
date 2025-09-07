@@ -1,0 +1,428 @@
+{
+    "alpha": [
+        {
+            "course": "CHEM 1154",
+            "title": "Engineering Chemistry",
+            "type": "Lab",
+            "room": "T540",
+            "instructor": "Farwaha H",
+            "day": "M",
+            "start": "0830",
+            "end": "1020"
+        },
+        {
+            "course": "PHYS 1125",
+            "title": "Physics I With Calculus",
+            "type": "Lecture",
+            "room": "T342",
+            "instructor": "Wong R",
+            "day": "M",
+            "start": "1030",
+            "end": "1220"
+        },
+        {
+            "course": "MATH 1171",
+            "title": "Calculus I",
+            "type": "Lecture",
+            "room": "B252",
+            "instructor": "Hakimi K",
+            "day": "M",
+            "start": "1430",
+            "end": "1620"
+        },
+        {
+            "course": "CHEM 1154",
+            "title": "Engineering Chemistry",
+            "type": "Lecture",
+            "room": "L342",
+            "instructor": "Farwaha H",
+            "day": "T",
+            "start": "0830",
+            "end": "1020"
+        },
+        {
+            "course": "PHYS 1125",
+            "title": "Physics I With Calculus",
+            "type": "Lab",
+            "room": "T346",
+            "instructor": "Wong R",
+            "day": "T",
+            "start": "1030",
+            "end": "1220"
+        },
+        {
+            "course": "CPSC 1155",
+            "title": "Program Design for Engineers",
+            "type": "Lecture",
+            "room": "B027",
+            "instructor": "Monagan G",
+            "day": "T",
+            "start": "1430",
+            "end": "1620"
+        },
+        {
+            "course": "CPSC 1091",
+            "title": "Engineering Design and Drafting",
+            "type": "Lab",
+            "room": "T215",
+            "instructor": "Habibzadeh A",
+            "day": "W",
+            "start": "0830",
+            "end": "1020"
+        },
+        {
+            "course": "CPSC 1091",
+            "title": "Engineering Design and Drafting",
+            "type": "Lecture",
+            "room": "B030",
+            "instructor": "Habibzadeh A",
+            "day": "W",
+            "start": "1030",
+            "end": "1220"
+        },
+        {
+            "course": "MATH 1171",
+            "title": "Calculus I",
+            "type": "Lecture",
+            "room": "B252",
+            "instructor": "Hakimi K",
+            "day": "W",
+            "start": "1430",
+            "end": "1620"
+        },
+        {
+            "course": "CHEM 1154",
+            "title": "Engineering Chemistry",
+            "type": "Lecture",
+            "room": "L342",
+            "instructor": "Farwaha H",
+            "day": "R",
+            "start": "0830",
+            "end": "1020"
+        },
+        {
+            "course": "PHYS 1125",
+            "title": "Physics I With Calculus",
+            "type": "Lecture",
+            "room": "T342",
+            "instructor": "Wong R",
+            "day": "R",
+            "start": "1030",
+            "end": "1220"
+        },
+        {
+            "course": "CPSC 1155",
+            "title": "Program Design for Engineers",
+            "type": "Lecture",
+            "room": "B027",
+            "instructor": "Monagan G",
+            "day": "R",
+            "start": "1430",
+            "end": "1620"
+        },
+        {
+            "course": "ENGL 1123",
+            "title": "Intro to Academic Writing",
+            "type": "Lecture",
+            "room": "A327",
+            "instructor": "Slade S",
+            "day": "F",
+            "start": "0930",
+            "end": "1220"
+        },
+        {
+            "course": "CPSC 1155",
+            "title": "Program Design for Engineers",
+            "type": "Lab",
+            "room": "T215",
+            "instructor": "Monagan G",
+            "day": "F",
+            "start": "1430",
+            "end": "1620"
+        }
+    ],
+    "beta": [
+        {
+            "course": "MATH 1171",
+            "title": "Calculus I",
+            "type": "Lecture",
+            "room": "B029",
+            "instructor": "Miller R",
+            "day": "M",
+            "start": "0830",
+            "end": "1020"
+        },
+        {
+            "course": "CPSC 1091",
+            "title": "Engineering Design and Drafting",
+            "type": "Lab",
+            "room": "T215",
+            "instructor": "Banisoltan S",
+            "day": "M",
+            "start": "1030",
+            "end": "1220"
+        },
+        {
+            "course": "CPSC 1091",
+            "title": "Engineering Design and Drafting",
+            "type": "Lecture",
+            "room": "WWW",
+            "instructor": "Banisoltan S",
+            "day": "M",
+            "start": "1430",
+            "end": "1620"
+        },
+        {
+            "course": "CPSC 1155",
+            "title": "Program Design for Engineers",
+            "type": "Lecture",
+            "room": "B010",
+            "instructor": "Monagan G",
+            "day": "T",
+            "start": "0830",
+            "end": "1020"
+        },
+        {
+            "course": "CHEM 1154",
+            "title": "Engineering Chemistry",
+            "type": "Lecture",
+            "room": "T537",
+            "instructor": "Rolke J",
+            "day": "T",
+            "start": "1030",
+            "end": "1220"
+        },
+        {
+            "course": "PHYS 1125",
+            "title": "Physics I With Calculus",
+            "type": "Lab",
+            "room": "T346",
+            "instructor": "Wong R",
+            "day": "T",
+            "start": "1430",
+            "end": "1620"
+        },
+        {
+            "course": "MATH 1171",
+            "title": "Calculus I",
+            "type": "Lecture",
+            "room": "B029",
+            "instructor": "Miller R",
+            "day": "W",
+            "start": "0830",
+            "end": "1020"
+        },
+        {
+            "course": "ENGL 1123",
+            "title": "Intro to Academic Writing",
+            "type": "Lecture",
+            "room": "A363C",
+            "instructor": "Poirier D",
+            "day": "W",
+            "start": "1030",
+            "end": "1220"
+        },
+        {
+            "course": "PHYS 1125",
+            "title": "Physics I With Calculus",
+            "type": "Lecture",
+            "room": "T342",
+            "instructor": "Wong R",
+            "day": "W",
+            "start": "1430",
+            "end": "1620"
+        },
+        {
+            "course": "CPSC 1155",
+            "title": "Program Design for Engineers",
+            "type": "Lecture",
+            "room": "B010",
+            "instructor": "Monagan G",
+            "day": "R",
+            "start": "0830",
+            "end": "1020"
+        },
+        {
+            "course": "CHEM 1154",
+            "title": "Engineering Chemistry",
+            "type": "Lecture",
+            "room": "T537",
+            "instructor": "Rolke J",
+            "day": "R",
+            "start": "1030",
+            "end": "1220"
+        },
+        {
+            "course": "PHYS 1125",
+            "title": "Physics I With Calculus",
+            "type": "Lecture",
+            "room": "T342",
+            "instructor": "Wong R",
+            "day": "R",
+            "start": "1430",
+            "end": "1620"
+        },
+        {
+            "course": "CPSC 1155",
+            "title": "Program Design for Engineers",
+            "type": "Lab",
+            "room": "T215",
+            "instructor": "Monagan G",
+            "day": "F",
+            "start": "0830",
+            "end": "1020"
+        },
+        {
+            "course": "CHEM 1154",
+            "title": "Engineering Chemistry",
+            "type": "Lab",
+            "room": "T540",
+            "instructor": "Rolke J",
+            "day": "F",
+            "start": "1230",
+            "end": "1420"
+        }
+    ],
+    "gamma": [
+        {
+            "course": "CPSC 1091",
+            "title": "Engineering Design and Drafting",
+            "type": "Lab",
+            "room": "T215",
+            "instructor": "Banisoltan S",
+            "day": "M",
+            "start": "0830",
+            "end": "1020"
+        },
+        {
+            "course": "MATH 1171",
+            "title": "Calculus I",
+            "type": "Lecture",
+            "room": "B153",
+            "instructor": "Tamas C",
+            "day": "M",
+            "start": "1030",
+            "end": "1220"
+        },
+        {
+            "course": "CPSC 1091",
+            "title": "Engineering Design and Drafting",
+            "type": "Lecture",
+            "room": "WWW",
+            "instructor": "Banisoltan S",
+            "day": "M",
+            "start": "1430",
+            "end": "1620"
+        },
+        {
+            "course": "PHYS 1125",
+            "title": "Physics I With Calculus",
+            "type": "Lab",
+            "room": "T346",
+            "instructor": "Rezaie E",
+            "day": "T",
+            "start": "0830",
+            "end": "1020"
+        },
+        {
+            "course": "CPSC 1155",
+            "title": "Program Design for Engineers",
+            "type": "Lecture",
+            "room": "B253",
+            "instructor": "Monagan G",
+            "day": "T",
+            "start": "1030",
+            "end": "1220"
+        },
+        {
+            "course": "CHEM 1154",
+            "title": "Engineering Chemistry",
+            "type": "Lecture",
+            "room": "C410",
+            "instructor": "Rolke J",
+            "day": "T",
+            "start": "1430",
+            "end": "1620"
+        },
+        {
+            "course": "PHYS 1125",
+            "title": "Physics I With Calculus",
+            "type": "Lecture",
+            "room": "T342",
+            "instructor": "Rezaie E",
+            "day": "W",
+            "start": "0830",
+            "end": "1020"
+        },
+        {
+            "course": "MATH 1171",
+            "title": "Calculus I",
+            "type": "Lecture",
+            "room": "B153",
+            "instructor": "Tamas C",
+            "day": "W",
+            "start": "1030",
+            "end": "1220"
+        },
+        {
+            "course": "ENGL 1123",
+            "title": "Intro to Academic Writing",
+            "type": "Lecture",
+            "room": "A306",
+            "instructor": "Gray S",
+            "day": "W",
+            "start": "1430",
+            "end": "1620"
+        },
+        {
+            "course": "PHYS 1125",
+            "title": "Physics I With Calculus",
+            "type": "Lecture",
+            "room": "T342",
+            "instructor": "Rezaie E",
+            "day": "R",
+            "start": "0830",
+            "end": "1020"
+        },
+        {
+            "course": "CPSC 1155",
+            "title": "Program Design for Engineers",
+            "type": "Lecture",
+            "room": "B253",
+            "instructor": "Monagan G",
+            "day": "R",
+            "start": "1030",
+            "end": "1220"
+        },
+        {
+            "course": "CHEM 1154",
+            "title": "Engineering Chemistry",
+            "type": "Lecture",
+            "room": "C410",
+            "instructor": "Rolke J",
+            "day": "R",
+            "start": "1430",
+            "end": "1620"
+        },
+        {
+            "course": "CHEM 1154",
+            "title": "Engineering Chemistry",
+            "type": "Lab",
+            "room": "T540",
+            "instructor": "Rolke J",
+            "day": "F",
+            "start": "0830",
+            "end": "1020"
+        },
+        {
+            "course": "CPSC 1155",
+            "title": "Program Design for Engineers",
+            "type": "Lab",
+            "room": "T215",
+            "instructor": "Monagan G",
+            "day": "F",
+            "start": "1030",
+            "end": "1220"
+        }
+    ]
+}
