@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             gamma: [],
             holidays: [],
             events: [],
+            info: [],
         };
     }
 
@@ -356,18 +357,23 @@ document.addEventListener("DOMContentLoaded", async function () {
             block.style.left = `${position * widthPercentage}%`;
         }
 
-        const eventInfo = (scheduleData.events || []).find(
-            (e) =>
-                e.date === dateString &&
-                e.course === classItem.course &&
-                (e.section === undefined || e.section === classItem.sec)
+        // Match any info notes (quiz/exam/etc.) for this class on this date.
+        // If no section specified in data, apply to all sections.
+        const infoMatches = (scheduleData.info || []).filter(
+            (inf) =>
+                inf.date === dateString &&
+                inf.course === classItem.course &&
+                (inf.sec === undefined || inf.sec === classItem.sec)
         );
-        const eventHTML = eventInfo
-            ? `<div class="class-block-info">${eventInfo.info}</div>`
-            : "";
+        const eventHTML = infoMatches
+            .map((inf) => `<div class="class-block-info">${inf.info}</div>`)
+            .join("");
 
         block.innerHTML = `<div class="class-block-course">${classItem.course}</div><div class="class-block-type">${classItem.type}</div><div class="class-block-instructor">${classItem.instructor}</div><div class="class-block-room">${classItem.room}</div>${eventHTML}`;
         block.dataset.tooltipTitle = `${classItem.course}-${classItem.sec}: ${classItem.title}`;
+        const infoTooltip = infoMatches.length
+            ? `<span>Note: ${infoMatches.map((i) => i.info).join(", ")}</span>`
+            : "";
         block.dataset.tooltipDetails = `<span>${classItem.start.slice(
             0,
             2
@@ -376,7 +382,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             2
         )}:${classItem.end.slice(2)}</span><span>Instructor: ${
             classItem.instructor
-        }</span><span>Room: ${classItem.room}</span>`;
+        }</span><span>Room: ${classItem.room}</span>${infoTooltip}`;
 
         return block;
     };

@@ -11,6 +11,7 @@ A web-based, interactive schedule visualizer for the Langara College Engineering
 -   **Course Filtering:** Click on legend items to filter the displayed courses.
 -   **Holiday Display:** Automatically shows statutory holidays where no classes are scheduled.
 -   **One-off Seminars/Events:** Add date-specific events, like the APSC 1000 seminars, directly to the calendar.
+-   **Class Notes (quizzes/exams/etc.):** Add date-specific notes per course (and optional section) that render as badges on class blocks and in tooltips.
 -   **Today Marker:** The current date's column is automatically highlighted and scrolled into view.
 -   **Detailed Tooltips:** Hover over any class to see details like the full course title, section, instructor, and room number.
 -   **Responsive Design:** Adapts to different screen sizes.
@@ -27,7 +28,7 @@ A web-based, interactive schedule visualizer for the Langara College Engineering
 
 The `data.json` file is the heart of this visualizer. It contains all the schedule information, holidays, and special events. Here's how to modify it:
 
-The file has three main sections: `holidays`, `events`, and the cohort schedules (`alpha`, `beta`, `gamma`).
+The file has four main sections: `holidays`, `events`, `info`, and the cohort schedules (`alpha`, `beta`, `gamma`).
 
 ### 1. Cohort Schedules
 
@@ -92,3 +93,45 @@ The `events` section is an array of full class objects for events that happen on
 -   This object uses the same fields as a regular class, but with a `date` field (in `YYYY-MM-DD` format) instead of a `day` field.
 -   These events will appear on the calendar for everyone, regardless of the selected cohorts.
 -   Ensure the `course` (e.g., "APSC 1000") is also defined in `script.js` with a color and icon to be displayed correctly.
+
+### 4. Class Notes (quizzes/exams/etc.)
+
+Use the top-level `info` array to annotate important notes such as quizzes, midterms, finals, assignment deadlines, etc. These render as a small badge on the matching class block and are also included in the tooltip.
+
+Each entry uses the following structure:
+
+```json
+{
+    "date": "YYYY-MM-DD",
+    "course": "COURSE CODE",
+    "info": "Short note (e.g., 'Quiz', 'Midterm 1', 'Final Exam')",
+    "sec": "OPTIONAL SECTION"
+}
+```
+
+-   `date`: The calendar date of the note.
+-   `course`: The course code the note applies to.
+-   `info`: Short, visible text that appears on the class block.
+-   `sec` (optional): If omitted, the note applies to all sections of that course on that date; if present, it only applies to the matching section.
+
+Examples:
+
+```json
+{
+    "info": [
+        {
+            "date": "2025-09-10",
+            "course": "MATH 1171",
+            "sec": "003",
+            "info": "Quiz"
+        },
+        {
+            "date": "2025-10-20",
+            "course": "PHYS 1125",
+            "info": "Midterm 1"
+        }
+    ]
+}
+```
+
+Notes are matched by `date` and `course`, and by `sec` when provided. If a section is not provided, all visible sections of that course on that date will display the note.

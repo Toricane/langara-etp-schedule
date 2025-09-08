@@ -31,6 +31,14 @@
             "cohorts": ["alpha", "beta", "gamma"]
         }
     ],
+    "info": [
+        {
+            "date": "2025-09-10",
+            "course": "MATH 1171",
+            "sec": "003",
+            "info": "Quiz"
+        }
+    ],
     "alpha": [
         {
             "course": "CHEM 1154",
