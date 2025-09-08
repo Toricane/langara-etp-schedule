@@ -9,6 +9,17 @@
         {
             "course": "APSC 1000",
             "sec": "001",
+            "title": "Program Orientation",
+            "type": "Seminar",
+            "room": "A130",
+            "instructor": "Csilla Tamas",
+            "date": "2025-09-03",
+            "start": "1230",
+            "end": "1330"
+        },
+        {
+            "course": "APSC 1000",
+            "sec": "001",
             "title": "Brittany Epple, Student Conduct Office",
             "type": "Seminar",
             "room": "A130",
