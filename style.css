@@ -289,6 +289,13 @@ header h1 {
     border-color: var(--cohort-gamma-border);
 }
 
+.class-block.cohort-event {
+    border-color: #f59e0b;
+    /* A gold/yellow color for events */
+    z-index: 10;
+    /* Appear above regular cohort classes if overlapping */
+}
+
 .class-block-course {
     font-weight: 700;
     font-size: 12px;

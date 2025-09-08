@@ -7,9 +7,10 @@ A web-based, interactive schedule visualizer for the Langara College Engineering
 -   **Dynamic Full-Semester View:** Displays the entire semester from September 1st to December 1st, 2025.
 -   **Horizontal Scrolling:** Easily navigate through the semester.
 -   **Cohort Toggling:** Show or hide schedules for Alpha, Beta, and Gamma cohorts.
+-   **State Persistence:** Remembers your cohort toggle preferences between visits.
 -   **Course Filtering:** Click on legend items to filter the displayed courses.
 -   **Holiday Display:** Automatically shows statutory holidays where no classes are scheduled.
--   **Special Event Markers:** Highlight important dates like quizzes, midterms, or labs directly on the class blocks.
+-   **One-off Seminars/Events:** Add date-specific events, like the APSC 1000 seminars, directly to the calendar.
 -   **Today Marker:** The current date's column is automatically highlighted and scrolled into view.
 -   **Detailed Tooltips:** Hover over any class to see details like the full course title, section, instructor, and room number.
 -   **Responsive Design:** Adapts to different screen sizes.
@@ -70,20 +71,24 @@ The `holidays` section is an array of holiday objects. On these dates, no classe
 -   `date`: The date of the holiday in `YYYY-MM-DD` format.
 -   `name`: The name of the holiday.
 
-### 3. Special Events
+### 3. One-off Events (e.g., APSC 1000 Seminars)
 
-The `events` section is an array of event objects used to mark specific classes with extra information, like a quiz or midterm.
+The `events` section is an array of full class objects for events that happen on a specific date, rather than recurring weekly. This is ideal for guest lectures or seminars like APSC 1000.
 
 ```json
 {
-    "course": "MATH 1171",
-    "section": "006",
-    "date": "2025-09-29",
-    "info": "Quiz 1"
+    "course": "APSC 1000",
+    "sec": "001",
+    "title": "Brittany Epple, Student Conduct Office",
+    "type": "Seminar",
+    "room": "A130",
+    "instructor": "Csilla Tamas",
+    "date": "2025-09-17",
+    "start": "1230",
+    "end": "1330"
 }
 ```
 
--   `course`: The course code for the event.
--   `section` (Optional): The specific section this event applies to. If you omit the `section` field, the event will appear on **all** sections of that course on the specified date.
--   `date`: The date of the event in `YYYY-MM-DD` format.
--   `info`: The text to display for the event (e.g., "Quiz 1", "Midterm Exam").
+-   This object uses the same fields as a regular class, but with a `date` field (in `YYYY-MM-DD` format) instead of a `day` field.
+-   These events will appear on the calendar for everyone, regardless of the selected cohorts.
+-   Ensure the `course` (e.g., "APSC 1000") is also defined in `script.js` with a color and icon to be displayed correctly.

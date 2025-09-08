@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         "CPSC 1155": "rgba(236, 72, 153, 0.85)",
         "CPSC 1091": "rgba(16, 185, 129, 0.85)",
         "ENGL 1123": "rgba(107, 114, 128, 0.85)",
+        "APSC 1000": "rgba(245, 158, 11, 0.85)",
     };
 
     const courseIcons = {
@@ -15,6 +16,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         "CPSC 1155": `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='rgba(255,255,255,0.2)'%3E%3Cpath d='M9.4 7.4L4.8 12l4.6 4.6L8 18l-6-6 6-6 1.4 1.4zm5.2 0l4.6 4.6-4.6 4.6L16 18l6-6-6-6-1.4 1.4z'/%3E%3C/svg%3E`,
         "CPSC 1091": `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='rgba(255,255,255,0.15)'%3E%3Cpath d='M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61-.25-1.17-.59-1.69-.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z'/%3E%3C/svg%3E`,
         "ENGL 1123": `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='rgba(255,255,255,0.15)'%3E%3Cpath d='M20 6H4v12h16V6zM4 4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4z'/%3E%3Cpath d='M6 8h8v2H6z'/%3E%3C/svg%3E`,
+        "APSC 1000": `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='rgba(255,255,255,0.15)'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E`,
     };
 
     const SEMESTER_START = new Date("2025-09-01T00:00:00");
@@ -181,20 +183,33 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             const dayOfWeek = date.getDay();
             const dayKey = dayMap[dayOfWeek];
-            if (!dayKey) return;
 
             let dayEvents = [];
-            cohortsToRender.forEach((cohortName) => {
-                (scheduleData[cohortName] || [])
-                    .filter(
-                        (c) =>
-                            c.day === dayKey &&
-                            activeCourseFilters.has(c.course)
-                    )
-                    .forEach((c) =>
-                        dayEvents.push({ ...c, cohort: cohortName })
-                    );
-            });
+
+            // Add one-off events for the specific date
+            (scheduleData.events || [])
+                .filter(
+                    (event) =>
+                        event.date === dateString &&
+                        activeCourseFilters.has(event.course)
+                )
+                .forEach((event) => {
+                    dayEvents.push({ ...event, cohort: "event" }); // Assign a special 'event' cohort
+                });
+
+            if (dayKey) {
+                cohortsToRender.forEach((cohortName) => {
+                    (scheduleData[cohortName] || [])
+                        .filter(
+                            (c) =>
+                                c.day === dayKey &&
+                                activeCourseFilters.has(c.course)
+                        )
+                        .forEach((c) =>
+                            dayEvents.push({ ...c, cohort: cohortName })
+                        );
+                });
+            }
 
             if (dayEvents.length === 0) return;
             totalEventsToRender += dayEvents.length;
@@ -237,6 +252,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         const block = document.createElement("div");
         block.className = `class-block cohort-${classItem.cohort}`;
+        if (classItem.cohort === "event") {
+            block.classList.add("cohort-event");
+        }
         block.dataset.course = classItem.course;
         block.style.top = `${top}px`;
         block.style.height = `${height}px`;
