@@ -37,6 +37,18 @@
             "course": "MATH 1171",
             "sec": "003",
             "info": "Quiz"
+        },
+        {
+            "date": "2025-10-06",
+            "course": "CPSC 1091",
+            "sec": "M01",
+            "info": "Midterm"
+        },
+        {
+            "date": "2025-10-06",
+            "course": "CPSC 1091",
+            "sec": "M02",
+            "info": "Midterm"
         }
     ],
     "alpha": [
