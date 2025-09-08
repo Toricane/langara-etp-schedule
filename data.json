@@ -15,7 +15,8 @@
             "instructor": "Csilla Tamas",
             "date": "2025-09-03",
             "start": "1230",
-            "end": "1330"
+            "end": "1330",
+            "cohorts": ["alpha", "beta", "gamma"]
         },
         {
             "course": "APSC 1000",
@@ -26,7 +27,8 @@
             "instructor": "Csilla Tamas",
             "date": "2025-09-18",
             "start": "1230",
-            "end": "1330"
+            "end": "1330",
+            "cohorts": ["alpha", "beta", "gamma"]
         }
     ],
     "alpha": [

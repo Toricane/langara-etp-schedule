@@ -95,21 +95,23 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const renderFullCalendar = () => {
         calendar.innerHTML = "";
-        calendar.style.gridTemplateColumns = `60px repeat(${dates.length}, minmax(220px, 1fr))`;
+        // The scrollable calendar only renders day columns; the fixed time-labels column
+        // is rendered separately into `#time-labels-fixed` so it stays visible while
+        // horizontally scrolling.
+        calendar.style.gridTemplateColumns = `repeat(${dates.length}, minmax(220px, 1fr))`;
 
+        // Render time labels into the fixed side column
         generateTimeLabels();
-        dates.forEach((date, index) => generateDayColumn(date, index + 2));
+        dates.forEach((date, index) => generateDayColumn(date, index + 1));
         populateCalendar();
         scrollToToday();
     };
 
     const generateTimeLabels = () => {
-        const timeLabelHeader = document.createElement("div");
-        timeLabelHeader.className = "time-label-header";
-        calendar.appendChild(timeLabelHeader);
-
-        const timeLabelsCol = document.createElement("div");
-        timeLabelsCol.id = "time-labels-col";
+        // Render into the fixed container if present, otherwise fallback to calendar
+        const fixedContainer = document.getElementById("time-labels-fixed");
+        const timeLabelsCol = fixedContainer || document.createElement("div");
+        if (!fixedContainer) timeLabelsCol.id = "time-labels-col";
         timeLabelsCol.className = "time-labels";
         timeLabelsCol.style.height = `${calendarHeight}px`;
         for (let i = startHour; i < endHour; i++) {
@@ -120,7 +122,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             label.appendChild(time);
             timeLabelsCol.appendChild(label);
         }
-        calendar.appendChild(timeLabelsCol);
+        // Only append when we created the element locally (fallback)
+        if (!fixedContainer) calendar.appendChild(timeLabelsCol);
     };
 
     const generateDayColumn = (date, gridColumn) => {
@@ -194,16 +197,58 @@ document.addEventListener("DOMContentLoaded", async function () {
                         activeCourseFilters.has(event.course)
                 )
                 .forEach((event) => {
-                    dayEvents.push({ ...event, cohort: "event" }); // Assign a special 'event' cohort
+                    const eventCohorts = event.cohorts || [];
+                    const relevantCohorts = eventCohorts.filter((c) =>
+                        cohortsToRender.includes(c)
+                    );
+
+                    if (
+                        event.cohorts &&
+                        relevantCohorts.length === cohortsToRender.length &&
+                        cohortsToRender.length > 0
+                    ) {
+                        // This event is for all visible cohorts.
+                        dayEvents.push({
+                            ...event,
+                            cohort: "event-full-width",
+                            originalCohorts: relevantCohorts,
+                        });
+                    } else if (event.cohorts) {
+                        // Event for specific cohorts
+                        relevantCohorts.forEach((cohortName) => {
+                            dayEvents.push({ ...event, cohort: cohortName });
+                        });
+                    } else {
+                        // Generic event, not tied to specific cohorts
+                        dayEvents.push({ ...event, cohort: "event" });
+                    }
                 });
 
             if (dayKey) {
                 cohortsToRender.forEach((cohortName) => {
+                    // Avoid adding regular classes if a full-width event for this cohort exists
+                    const isCoveredByFullWidth = dayEvents.some(
+                        (e) =>
+                            e.cohort === "event-full-width" &&
+                            e.originalCohorts.includes(cohortName)
+                    );
+
                     (scheduleData[cohortName] || [])
                         .filter(
                             (c) =>
                                 c.day === dayKey &&
-                                activeCourseFilters.has(c.course)
+                                activeCourseFilters.has(c.course) &&
+                                !dayEvents.some(
+                                    (de) =>
+                                        de.cohort === "event-full-width" &&
+                                        de.originalCohorts.includes(
+                                            cohortName
+                                        ) &&
+                                        timeToMinutes(c.start) <
+                                            timeToMinutes(de.end) &&
+                                        timeToMinutes(c.end) >
+                                            timeToMinutes(de.start)
+                                )
                         )
                         .forEach((c) =>
                             dayEvents.push({ ...c, cohort: cohortName })
@@ -215,13 +260,48 @@ document.addEventListener("DOMContentLoaded", async function () {
             totalEventsToRender += dayEvents.length;
 
             const activeCohortsOnDay = [
-                ...new Set(dayEvents.map((e) => e.cohort)),
+                ...new Set(
+                    dayEvents
+                        .filter((e) => e.cohort !== "event-full-width")
+                        .map((e) => e.cohort)
+                ),
             ].sort();
+
             const totalCols = activeCohortsOnDay.length || 1;
             const cohortIndexMap = new Map(
                 activeCohortsOnDay.map((cohort, index) => [cohort, index])
             );
 
+            dayEvents.forEach((classItem) => {
+                if (classItem.cohort === "event-full-width") {
+                    // Remove underlying events that this full-width event overlaps with
+                    dayEvents = dayEvents.filter((e) => {
+                        if (e === classItem) return true;
+                        if (!classItem.originalCohorts.includes(e.cohort))
+                            return true;
+
+                        const startsDuring =
+                            timeToMinutes(e.start) >=
+                                timeToMinutes(classItem.start) &&
+                            timeToMinutes(e.start) <
+                                timeToMinutes(classItem.end);
+                        const endsDuring =
+                            timeToMinutes(e.end) >
+                                timeToMinutes(classItem.start) &&
+                            timeToMinutes(e.end) <=
+                                timeToMinutes(classItem.end);
+                        const overlaps =
+                            timeToMinutes(e.start) <
+                                timeToMinutes(classItem.start) &&
+                            timeToMinutes(e.end) > timeToMinutes(classItem.end);
+
+                        return !startsDuring && !endsDuring && !overlaps;
+                    });
+                }
+            });
+
+            // Clear and re-render
+            dayCol.innerHTML = "";
             dayEvents.forEach((classItem) => {
                 const block = createClassBlock(
                     classItem,
@@ -252,7 +332,10 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         const block = document.createElement("div");
         block.className = `class-block cohort-${classItem.cohort}`;
-        if (classItem.cohort === "event") {
+        if (
+            classItem.cohort === "event" ||
+            classItem.cohort === "event-full-width"
+        ) {
             block.classList.add("cohort-event");
         }
         block.dataset.course = classItem.course;
@@ -263,10 +346,15 @@ document.addEventListener("DOMContentLoaded", async function () {
             courseIcons[classItem.course] || ""
         }")`;
 
-        const position = cohortIndexMap.get(classItem.cohort);
-        const widthPercentage = 100 / totalCols;
-        block.style.width = `calc(${widthPercentage}% - 4px)`;
-        block.style.left = `${position * widthPercentage}%`;
+        if (classItem.cohort === "event-full-width") {
+            block.style.width = `calc(100% - 4px)`;
+            block.style.left = "0";
+        } else {
+            const position = cohortIndexMap.get(classItem.cohort);
+            const widthPercentage = 100 / totalCols;
+            block.style.width = `calc(${widthPercentage}% - 4px)`;
+            block.style.left = `${position * widthPercentage}%`;
+        }
 
         const eventInfo = (scheduleData.events || []).find(
             (e) =>
