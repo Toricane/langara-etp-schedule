@@ -58,74 +58,62 @@
         {
             "date": "2025-09-05",
             "course": "CHEM 1154",
-            "info": "Both",
-            "sec": "001"
+            "info": "Both"
         },
         {
             "date": "2025-09-12",
             "course": "CHEM 1154",
-            "info": "Protons",
-            "sec": "001"
+            "info": "Protons"
         },
         {
             "date": "2025-09-19",
             "course": "CHEM 1154",
-            "info": "Electrons",
-            "sec": "001"
+            "info": "Electrons"
         },
         {
             "date": "2025-09-26",
             "course": "CHEM 1154",
-            "info": "Protons",
-            "sec": "001"
+            "info": "Protons"
         },
         {
             "date": "2025-10-03",
             "course": "CHEM 1154",
-            "info": "Electrons",
-            "sec": "001"
+            "info": "Electrons"
         },
         {
             "date": "2025-10-10",
             "course": "CHEM 1154",
-            "info": "No Lab",
-            "sec": "001"
+            "info": "No Lab"
         },
         {
             "date": "2025-10-17",
             "course": "CHEM 1154",
-            "info": "Protons",
-            "sec": "001"
+            "info": "Protons"
         },
         {
             "date": "2025-10-24",
             "course": "CHEM 1154",
-            "info": "Electrons",
-            "sec": "001"
+            "info": "Electrons"
         },
         {
             "date": "2025-10-31",
             "course": "CHEM 1154",
-            "info": "Protons",
-            "sec": "001"
+            "info": "Protons"
         },
         {
             "date": "2025-11-07",
             "course": "CHEM 1154",
-            "info": "Electrons",
-            "sec": "001"
+            "info": "Electrons"
         },
         {
             "date": "2025-11-14",
             "course": "CHEM 1154",
-            "info": "Protons",
-            "sec": "001"
+            "info": "Protons"
         },
         {
             "date": "2025-11-21",
             "course": "CHEM 1154",
-            "info": "Electrons",
-            "sec": "001"
+            "info": "Electrons"
         }
     ],
     "alpha": [
